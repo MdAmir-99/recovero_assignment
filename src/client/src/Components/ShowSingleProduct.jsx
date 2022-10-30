@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import './showSingleProduct.css';
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
-import axios from "axios";
+import axiosInstance from "../config";
 import CategoryIcon from '@mui/icons-material/Category';
 import PriceFormatter from "./PriceFormatter";
 
@@ -24,7 +24,7 @@ const ShowSingleProduct = () => {
         const getData = async () => {
             try{
                 let url = `/products/${params.id}`;
-                const response = await axios.get(url)
+                const response = await axiosInstance.get(url)
                 if(response.status == 200){
                     setProductData(response.data.data)
                 }
