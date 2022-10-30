@@ -5,10 +5,6 @@ const {createProduct, getProducts, getSingleProduct, updateSingleProduct, delete
 // const upload = require('../fileUpload/uploadFile')
 
 
-router.get('/', (req, res) => {
-    res.send("Hello World !");
-})
-
 // Admin Api's
 
 router.post('/register', createAdmin)
