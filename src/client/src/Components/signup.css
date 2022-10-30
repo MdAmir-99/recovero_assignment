@@ -1,0 +1,66 @@
+.signup_container{
+    height : 84vh;
+    width :100vw;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: var(--main_color); */
+    z-index : 1;
+}
+
+.signup_header{
+    min-height : 60%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup_form{
+    height : 100%;
+    width : 100%;
+    z-index : 100;
+    text-align: center;
+    background-color : rgba(1, 1, 1, .1);
+    padding : 2rem 0;
+    border-radius: 1rem;
+    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; */
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.signup_form > .signup_form_heading{
+    width : fit-content;
+    margin : 0 auto;
+    padding : .2rem;
+    border-bottom : 3px solid var(--bg_color);
+    color : var(--bg_color);
+}
+
+
+.signup_formGroup{
+    width: 80%;
+    height : fit-content;
+    margin : 0 auto;
+    padding : .2rem 2rem;
+    color : red;
+}
+
+.signup_form_input{
+    width: 100%;
+}
+
+#signup_btn{
+    width: 100%;
+    margin-top: 1rem;
+    color : var(--main_color);
+    letter-spacing: 2px;
+    font-weight: 700;
+    background-color: var(--bg_color);
+    border-radius: .4rem;
+}
+
+.signup_error_message{
+    font-size: .9rem;
+    color: red;
+}
+
