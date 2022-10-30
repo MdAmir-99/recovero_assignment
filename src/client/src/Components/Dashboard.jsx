@@ -11,7 +11,7 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Tooltip from "@mui/material/Tooltip";
-import axios from "axios";
+import {axiosInstance} from "../config";
 import PriceFormatter from "./PriceFormatter";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,7 +38,7 @@ const Dashboard = () => {
   const getData = async () => {
     try {
       const url = "/products";
-      const response = await axios.get(url);
+      const response = await axiosInstance.get(url);
       if (response.status == 200) {
         setProductData(response.data.data);
         setInActiveProduct(response.data.inActiveProduct);
@@ -51,7 +51,7 @@ const Dashboard = () => {
   const getAdmin = async () => {
     try {
       const url = "/admins";
-      const response = await axios.get(url);
+      const response = await axiosInstance.get(url);
       if (response.status == 200) {
         setTotalAdmin(response.data.data);
       }
@@ -73,7 +73,7 @@ const Dashboard = () => {
   const deletProduct = async (id) => {
     const url = `/products/${id}`;
     console.log(url, "URLLLLL");
-    const response = await axios.delete(url);
+    const response = await axiosInstance.delete(url);
     getData();
     toast.success(response.data.message, {
       position: toast.POSITION.TOP_CENTER,
