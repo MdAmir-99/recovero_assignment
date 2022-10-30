@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MenuItem from '@mui/material/MenuItem';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import {axiosInstance} from "../config";
+import axios from 'axios';
 
 
 
@@ -71,6 +71,7 @@ const UpdateSingleProduct = () => {
 
             const url = `/products/${productId}`;
             const config = {
+              method: "PUT",
               data: formData,
               headers: {
                 "Content-Type": "multipart/form-data",
@@ -80,7 +81,7 @@ const UpdateSingleProduct = () => {
             // console.log(productImage.productImage, "^&^&^&^&^")
 
             try {
-                const response = await axiosInstance.put(url, config);
+                const response = await axios(url, config);
                 if (response.status >= 400) {
                   setError(response.data.message);
                   toast.error(response.data.message, {

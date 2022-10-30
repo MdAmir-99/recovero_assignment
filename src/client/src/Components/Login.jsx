@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./login.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {axiosInstance} from "../config";
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,12 +24,13 @@ const Login = () => {
       try{
         const url = '/adminLogin';
         const config = {
+          method:"POST",
           data : JSON.stringify({email, password}),
           headers : {
           "Content-Type" : "application/json"
           }
         }
-        const response = await axiosInstance.post(url, config);
+        const response = await axios(url, config);
         console.log(response, "RESPO")
         const data = response.data;
         console.warn(data, "Data")

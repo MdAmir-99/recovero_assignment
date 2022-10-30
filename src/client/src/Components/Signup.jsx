@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./signup.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {axiosInstance} from "../config";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -52,6 +52,7 @@ const Signup = () => {
 
     const url = "/register";
     const config = {
+      method: "POST",
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -59,7 +60,7 @@ const Signup = () => {
     };
 
     try {
-      const response = await axiosInstance.post(url, config);
+      const response = await axios(url, config);
       if (response.status >= 400) {
         setError(response.data.message);
         toast.error(response.data.message, {
