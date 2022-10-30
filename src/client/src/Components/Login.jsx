@@ -22,7 +22,7 @@ const Login = () => {
       e.preventDefault();
       console.log(email,password)
       try{
-        const url = 'http://localhost:5000/adminLogin';
+        const url = '/adminLogin';
         const config = {
           method:"POST",
           data : JSON.stringify({email, password}),

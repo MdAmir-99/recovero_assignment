@@ -50,7 +50,7 @@ const Signup = () => {
     formData.append("mobile", admin.mobile);
     formData.append("profileImage", image.image);
 
-    const url = "http://localhost:5000/register";
+    const url = "/register";
     const config = {
       method: "POST",
       data: formData,

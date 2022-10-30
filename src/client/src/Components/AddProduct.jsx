@@ -65,7 +65,7 @@ const AddProduct = () => {
             formData.append("category" , select)
             formData.append("productImage" , productImage.productImage)
 
-            const url = "http://localhost:5000/products";
+            const url = "/products";
             const config = {
               method: "POST",
               data: formData,

@@ -23,7 +23,7 @@ const ShowSingleProduct = () => {
     useEffect(() => {
         const getData = async () => {
             try{
-                let url = `http://localhost:5000/products/${params.id}`;
+                let url = `/products/${params.id}`;
                 const response = await axios.get(url)
                 if(response.status == 200){
                     setProductData(response.data.data)

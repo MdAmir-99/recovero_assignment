@@ -50,7 +50,7 @@ const Dashboard = () => {
 
   const getAdmin = async () => {
     try {
-      const url = "http://localhost:5000/admins";
+      const url = "/admins";
       const response = await axios.get(url);
       if (response.status == 200) {
         setTotalAdmin(response.data.data);
@@ -71,7 +71,7 @@ const Dashboard = () => {
   }
 
   const deletProduct = async (id) => {
-    const url = `http://localhost:5000/products/${id}`;
+    const url = `/products/${id}`;
     console.log(url, "URLLLLL");
     const response = await axios.delete(url);
     getData();

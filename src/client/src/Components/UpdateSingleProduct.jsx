@@ -69,7 +69,7 @@ const UpdateSingleProduct = () => {
             formData.append("category" , select)
             formData.append("productImage" , productImage.productImage)
 
-            const url = `http://localhost:5000/products/${productId}`;
+            const url = `/products/${productId}`;
             const config = {
               method: "PUT",
               data: formData,
