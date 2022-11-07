@@ -4,7 +4,6 @@ const {createAdmin, loginAdmin, getAdmins} = require('../controller/adminControl
 const {createProduct, getProducts, getSingleProduct, updateSingleProduct, deleteSingleProduct} = require("../controller/productController");
 // const upload = require('../fileUpload/uploadFile')
 
-
 // Admin Api's
 
 router.post('/register', createAdmin)
@@ -18,11 +17,5 @@ router.get('/products', getProducts)
 router.get('/products/:productId', getSingleProduct)
 router.put('/products/:productId', updateSingleProduct);
 router.delete('/products/:productId', deleteSingleProduct);
-
-
-
-
-
-
 
 module.exports = router;

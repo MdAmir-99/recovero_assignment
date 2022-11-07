@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 
-app.use('/uploadImage', express.static('uploadImage'));
+// app.use('/uploadImage', express.static('uploadImage'));
 
 
 mongoose.connect(process.env.DB_CON, { useNewUrlParser : true})
@@ -26,16 +26,6 @@ mongoose.connect(process.env.DB_CON, { useNewUrlParser : true})
 
 app.use('/', routes)
 
-
-// Heroku Deploy
-
-if(process.env.NODE_ENV === 'production'){
-    // app.use(express.static("client/dist"))
-    const path = require('path');
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
-    })
-}
 
 app.listen(PORT , () => {
     console.log(`Application is running on 🌎 ${5000} Port`)

@@ -226,7 +226,8 @@ const updateSingleProduct = async (req, res) => {
 
     const data = await productModel.findOneAndUpdate(
       { _id: productId },
-      passData
+      passData,
+      {new :true}
     );
 
     return res
