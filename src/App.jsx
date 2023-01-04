@@ -1,30 +1,33 @@
-import {BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css';
 import Navbar from './Components/Navbar'
-import Login from './Components/Login'
 import Signup from './Components/Signup'
+import Login from './Components/Login'
 import Footer from './Components/Footer'
-import Dashboard from './Components/Dashboard'
-import AddProduct from './Components/AddProduct'
+import AdminDashboard from './Components/AdminDashboard'
 import ShowSingleProduct from './Components/ShowSingleProduct';
-import UpdateSingleProduct from './Components/UpdateSingleProduct';
+// import UpdateSingleProduct from './Components/UpdateSingleProduct';
+import UserDashboard from './Components/UserDashboard'
+import AddMember from './Components/AddMember';
 
-function App() {
+function App ()
+{
 
-  return (      
-      <Router>
+  return (
+    <Router>
       <Navbar />
-        <Routes>
-          <Route exact path='/' element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/addProduct" element={<AddProduct />} />
-          <Route path="/product/:id" element={<ShowSingleProduct />} />
-          <Route path="/updateProduct/:id" element={<UpdateSingleProduct />} />
-        </Routes>
-        <Footer />
-      </Router>
+      <Routes>
+        <Route exact path='/' element={ <Login /> } />
+        <Route exact path='/login' element={ <Login /> } />
+        <Route path="/signup" element={ <Signup /> } />
+        <Route path="/adminDashboard" element={ <AdminDashboard /> } />
+        <Route path="/addmember" element={ <AddMember /> } />
+        <Route path="/product/:id" element={ <ShowSingleProduct /> } />
+        {/* <Route path="/updateProduct/:id" element={ <UpdateSingleProduct /> } /> */ }
+        <Route path="/userDashboard" element={ <UserDashboard /> } />
+      </Routes>
+      <Footer />
+    </Router>
   )
 }
 

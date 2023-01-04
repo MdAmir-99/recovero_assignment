@@ -1,89 +1,76 @@
-import React, { useState, useEffect } from "react";
-import "./signup.css";
-import TextField from "@mui/material/TextField";
+import React, { useState, useEffect } from 'react'
+import './signup.css';
 import Button from "@mui/material/Button";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Signup = () => {
+
+
+const SignUp = () =>
+{
   const navigate = useNavigate();
-  const [image, setImage] = useState([]);
-  const [admin, setAdmin] = useState({
-    firstName: "",
-    lastName: "",
+  const [ adminData, setAdminData ] = useState( {
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    mobile: "",
-  });
+    mobile: ""
+  } );
 
-  const [error, setError] = useState("");
+  const [ error, setError ] = useState( "" )
+
+  // handle inputs 
   let name, value;
 
-  const handleInputs = (e) => {
-    // console.log(e);
+  const handleInputs = ( e ) =>
+  {
     e.persist();
     name = e.target.name;
     value = e.target.value;
 
-    setAdmin({ ...admin, [name]: value });
+    setAdminData( { ...adminData, [ name ]: value } );
   };
 
-  const handleImage = (e) => {
-    console.warn(e.target.files[0]);
-    setImage({ image: e.target.files[0] });
-  };
 
-  const PostData = async (e) => {
+  // Send Data to FontEnd
+
+  const PostData = async ( e ) =>
+  {
     e.preventDefault();
-    // console.log(admin)
-    // console.log(image)
 
-    const formData = new FormData();
-    formData.append("firstName", admin.firstName);
-    formData.append("lastName", admin.lastName);
-    formData.append("email", admin.email);
-    formData.append("password", admin.password);
-    formData.append("confirmPassword", admin.confirmPassword);
-    formData.append("mobile", admin.mobile);
-    formData.append("profileImage", image.image);
-
-    const url = "https://admin-dashboard-backend-production.up.railway.app/register";
+    const url = `http://localhost:5000/user/register`
+    // const url = "https://admin-dashboard-backend-production.up.railway.app/products";
     const config = {
-      data: formData,
+      method: "POST",
+      data: JSON.stringify( adminData ),
       headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-
-    try {
-      const response = await axios.post(url, config);
-      if (response.status >= 400) {
-        setError(response.data.message);
-        toast.error(response.data.message, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        // console.log("signup Failed");
-      } 
-      else {
-        toast.success(response.data.message, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        // localStorage.setItem("admin" , JSON.stringify(response.data.data))
-        setTimeout(() => {
-          navigate("/login");
-        }, 3500);
+        "Content-Type": "application/json"
       }
-    } catch (err) {
-      toast.error(err.response.data.message, {
-        position: toast.POSITION.TOP_CENTER,
-      })
-      // console.log(err.response.data.message);
-      setError(err.response.data.message);
     }
-  };
+    try
+    {
+      const { data } = await axios( url, config );
+
+      if ( data.status === true )
+      {
+        toast.success( data.message, {
+          position: toast.POSITION.TOP_CENTER,
+        } );
+        setAdminData( data.data )
+        navigate( "/login" );
+      }
+    } catch ( err )
+    {
+      toast.error( err.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      } )
+
+      setError( err.response.data.message );
+    }
+
+  }
 
   return (
     <div className="signup_container">
@@ -91,84 +78,56 @@ const Signup = () => {
         <form
           method="POST"
           className="signup_form"
-          encType="multipart/form-data"
+          onSubmit={ PostData }
         >
-          <h2 className="signup_form_heading">SingUP</h2>
+          <h2 className="signup_form_heading">SignUp</h2>
           <div className="signup_formGroup">
-            <TextField
-              name="firstName"
-              value={admin.firstName}
-              onChange={handleInputs}
-              label="First Name"
-              variant="standard"
-              inputProps={{ style: { color: "orange" } }}
+            <input
+              placeholder="Enter Name..."
+              type="text"
+              name="fullName"
+              value={ adminData.fullName }
+              onChange={ handleInputs }
               className="signup_form_input"
             />
           </div>
           <div className="signup_formGroup">
-            <TextField
-              name="lastName"
-              value={admin.lastName}
-              onChange={handleInputs}
-              label="Last Name"
-              variant="standard"
-              className="signup_form_input"
-            />
-          </div>
-          <div className="signup_formGroup">
-            <TextField
+            <input
+              placeholder="Enter Email..."
+              type="text"
               name="email"
-              value={admin.email}
-              onChange={handleInputs}
-              label="Email"
-              type="email"
-              variant="standard"
+              value={ adminData.email }
+              onChange={ handleInputs }
               className="signup_form_input"
             />
           </div>
           <div className="signup_formGroup">
-            <TextField
+            <input
+              placeholder="Enter Password..."
+              type="password"
               name="password"
-              value={admin.password}
-              onChange={handleInputs}
-              label="Password"
-              type="password"
-              variant="standard"
+              value={ adminData.password }
+              onChange={ handleInputs }
               className="signup_form_input"
             />
           </div>
           <div className="signup_formGroup">
-            <TextField
+            <input
+              placeholder="Enter Password..."
+              type="password"
               name="confirmPassword"
-              value={admin.confirmPassword}
-              onChange={handleInputs}
-              label="Confirm Password"
-              type="password"
-              variant="standard"
+              value={ adminData.confirmPassword }
+              onChange={ handleInputs }
               className="signup_form_input"
             />
           </div>
           <div className="signup_formGroup">
-            <TextField
+            <input
+              placeholder="Enter Mobile..."
               name="mobile"
-              value={admin.mobile}
-              onChange={handleInputs}
-              label="Mobile Number"
-              inputProps={{ style: { color: "orange" } }}
-              color="warning"
+              value={ adminData.mobile }
+              onChange={ handleInputs }
               type="number"
-              variant="standard"
-              className="signup_form_input"
-            />
-          </div>
-          <div className="signup_formGroup">
-            <TextField
-              name="profileImage"
-              value={image.name}
-              onChange={handleImage}
-              label="Profile Image"
-              type="file"
-              variant="standard"
               className="signup_form_input"
             />
           </div>
@@ -176,19 +135,18 @@ const Signup = () => {
             <Button
               variant="contained"
               type="submit"
-              name="signup"
-              onClick={PostData}
+              name="addMember"
               id="signup_btn"
             >
-              SIGNUP
+              SignUp
             </Button>
           </div>
-          {error && <span className="signup_error_message">{error}</span>}
+          { error && <span className="signup_error_message">{ error }</span> }
         </form>
       </div>
       <ToastContainer />
     </div>
-  );
-};
+  )
+}
 
-export default Signup;
+export default SignUp

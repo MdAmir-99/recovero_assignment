@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import './addProduct.css';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -10,105 +10,118 @@ import axios from "axios";
 
 
 
-const UpdateSingleProduct = () => {
-        const navigate = useNavigate();
-        const params = useParams();
-        const productId = params.id;
-        const [productData, setProductData] = useState({
-            title : "",
-            description : "",
-            price : ""
-        });
+const UpdateSingleProduct = () =>
+{
+  const navigate = useNavigate();
+  const params = useParams();
+  const productId = params.id;
+  const [ productData, setProductData ] = useState( {
+    title: "",
+    description: "",
+    price: ""
+  } );
 
-        const [productImage, setProductImage] = useState([]);
-        const [error, setError] = useState("")
-        const [select , setSelect] = useState("");
+  const [ productImage, setProductImage ] = useState( [] );
+  const [ error, setError ] = useState( "" )
+  const [ select, setSelect ] = useState( "" );
 
-        let name, value;
+  let name, value;
 
-        const isLogin = localStorage.getItem('admin');
-        useEffect(() => {
-            if(!isLogin){
-                // console.log("HHJDHSGDHJSGDHJSDGHJSDGHJSGDHSDGJHSDGHSJDGHDGHJSD8979")
-                navigate('/login')
-            }
-        }, [])
+  const isLogin = localStorage.getItem( 'admin' );
+  useEffect( () =>
+  {
+    if ( !isLogin )
+    {
+      // console.log("HHJDHSGDHJSGDHJSDGHJSDGHJSGDHSDGJHSDGHSJDGHDGHJSD8979")
+      navigate( '/login' )
+    }
+  }, [] )
 
-        // handle inputs 
-        
+  // handle inputs 
 
-        const handleInputs = (e) => {
-          // console.log(e);
-          e.persist();
-          name = e.target.name;
-          value = e.target.value;
 
-          setProductData({ ...productData, [name]: value });
-        };
+  const handleInputs = ( e ) =>
+  {
+    // console.log(e);
+    e.persist();
+    name = e.target.name;
+    value = e.target.value;
 
-        const handleSelect = (e) => {
-            e.preventDefault();
-            setSelect(e.target.value);
-        }
+    setProductData( { ...productData, [ name ]: value } );
+  };
 
-        const hanldeImage = (e) => {
-          console.warn(e.target.files[0]);
-          setProductImage({ productImage: e.target.files[0] });
-        };
+  const handleSelect = ( e ) =>
+  {
+    e.preventDefault();
+    setSelect( e.target.value );
+  }
 
-        // Send Data to FontEnd
+  const hanldeImage = ( e ) =>
+  {
+    console.warn( e.target.files[ 0 ] );
+    setProductImage( { productImage: e.target.files[ 0 ] } );
+  };
 
-        const UpdateData = async (e) => {
-            e.preventDefault();
-            // console.warn(productData,select, productImage, "********************")
+  // Send Data to FontEnd
 
-            const formData = new FormData();
-            formData.append("title" , productData.title)
-            formData.append("description" , productData.description)
-            formData.append("price" , productData.price)
-            formData.append("category" , select)
-            formData.append("productImage" , productImage.productImage)
+  const UpdateData = async ( e ) =>
+  {
+    e.preventDefault();
+    // console.warn(productData,select, productImage, "********************")
 
-            const url = `https://admin-dashboard-backend-production.up.railway.app/products/${productId}`;
-            const config = {
-              method:"PUT",
-              data: formData,
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            };
+    const formData = new FormData();
+    formData.append( "title", productData.title )
+    formData.append( "description", productData.description )
+    formData.append( "price", productData.price )
+    formData.append( "category", select )
+    formData.append( "productImage", productImage.productImage )
 
-            // console.log(productImage.productImage, "^&^&^&^&^")
+    const url = `http://localhost:5000/products/${ productId }`;
+    // const url = `https://admin-dashboard-backend-production.up.railway.app/products/${ productId }`;
+    const config = {
+      method: "PUT",
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
 
-            try {
-                const response = await axios(url, config);
-                if (response.status >= 400) {
-                  setError(response.data.message);
-                  toast.error(response.data.message, {
-                    position: toast.POSITION.TOP_CENTER,
-                  });
-                  // console.log("Product Updatation failed");
-                } 
-                else {
-                  toast.success(response.data.message, {
-                    position: toast.POSITION.TOP_CENTER,
-                  });
-                  // localStorage.setItem("admin" , JSON.stringify(response.data.data))
-                  setTimeout(() => {
-                    navigate("/dashboard");
-                  }, 2500);
-                }
-              } catch (err) {
-                toast.error(err.response.data.message, {
-                  position: toast.POSITION.TOP_CENTER,
-                })
-                // console.log(err.response.data.message);
-                setError(err.response.data.message);
-              }
-        }
+    // console.log(productImage.productImage, "^&^&^&^&^")
 
-        
-    
+    try
+    {
+      const response = await axios( url, config );
+      if ( response.status >= 400 )
+      {
+        setError( response.data.message );
+        toast.error( response.data.message, {
+          position: toast.POSITION.TOP_CENTER,
+        } );
+        // console.log("Product Updatation failed");
+      }
+      else
+      {
+        toast.success( response.data.message, {
+          position: toast.POSITION.TOP_CENTER,
+        } );
+        // localStorage.setItem("admin" , JSON.stringify(response.data.data))
+        setTimeout( () =>
+        {
+          navigate( "/dashboard" );
+        }, 2500 );
+      }
+    } catch ( err )
+    {
+      toast.error( err.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      } )
+      // console.log(err.response.data.message);
+      setError( err.response.data.message );
+    }
+  }
+
+
+
 
 
 
@@ -123,21 +136,21 @@ const UpdateSingleProduct = () => {
           <div className="addProduct_formGroup">
             <TextField
               name="title"
-              value={productData.title}
-              onChange={handleInputs}
+              value={ productData.title }
+              onChange={ handleInputs }
               label="Product Title"
               variant="standard"
-              inputProps={{ style: { color: "orange" } }}
+              inputProps={ { style: { color: "orange" } } }
               className="addProduct_form_input"
             />
           </div>
           <div className="addProduct_formGroup">
             <TextField
               name="description"
-              value={productData.description}
-              onChange={handleInputs}
+              value={ productData.description }
+              onChange={ handleInputs }
               label="Product Description"
-              rows={4}
+              rows={ 4 }
               multiline
               defaultValue="Enter Product Description"
               variant="standard"
@@ -147,8 +160,8 @@ const UpdateSingleProduct = () => {
           <div className="addProduct_formGroup">
             <TextField
               name="price"
-              value={productData.price}
-              onChange={handleInputs}
+              value={ productData.price }
+              onChange={ handleInputs }
               label="Product Price"
               type="number"
               variant="standard"
@@ -157,28 +170,28 @@ const UpdateSingleProduct = () => {
           </div>
           <div className="addProduct_formGroup">
             <TextField
-             id="standard-select-currency"
-             select
-             label="Select"
-             value={select}
-             onChange={handleSelect}
-             helperText="Please select Product Category"
-             variant="standard"
-             className="addProduct_form_input"
+              id="standard-select-currency"
+              select
+              label="Select"
+              value={ select }
+              onChange={ handleSelect }
+              helperText="Please select Product Category"
+              variant="standard"
+              className="addProduct_form_input"
             >
-                <MenuItem value={"sports"}>Sports</MenuItem>
-                <MenuItem value={"style & fashion"}>Style & Fashion</MenuItem>
-                <MenuItem value={"health"}>Health</MenuItem>
-                <MenuItem value={"electronics"}>Electronics</MenuItem>
-                <MenuItem value={"shome appliences"}>Home Appliences</MenuItem>
-                <MenuItem value={"food"}>Food</MenuItem>
+              <MenuItem value={ "sports" }>Sports</MenuItem>
+              <MenuItem value={ "style & fashion" }>Style & Fashion</MenuItem>
+              <MenuItem value={ "health" }>Health</MenuItem>
+              <MenuItem value={ "electronics" }>Electronics</MenuItem>
+              <MenuItem value={ "shome appliences" }>Home Appliences</MenuItem>
+              <MenuItem value={ "food" }>Food</MenuItem>
             </TextField>
           </div>
           <div className="addProduct_formGroup">
             <TextField
               name="productImage"
-              value={productImage.name}
-              onChange={hanldeImage}
+              value={ productImage.name }
+              onChange={ hanldeImage }
               label="Product Image"
               type="file"
               variant="standard"
@@ -190,13 +203,13 @@ const UpdateSingleProduct = () => {
               variant="contained"
               type="submit"
               name="addProduct"
-              onClick={UpdateData}
+              onClick={ UpdateData }
               id="addProduct_btn"
             >
               Update Product
             </Button>
           </div>
-          {/* {error && <span className="addProduct_error_message">{error}</span>} */}
+          {/* {error && <span className="addProduct_error_message">{error}</span>} */ }
         </form>
       </div>
       <ToastContainer />

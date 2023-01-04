@@ -1,9 +1,10 @@
-.light-theme{
-    --bg_color : #2c2c54;
-    --main_color : #f5f6fa;
+.light-theme {
+    --bg_color: #dfe6e9;
+    --main_color: #4834d4;
 }
 
-.dark-theme{
-    --bg_color : #f53b57;
-    --main_color : #f5f6fa;
+.dark-theme {
+    --bg_color: #171923;
+    --main_color: #f5f6fa;
+
 }

@@ -7,79 +7,96 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login = () => {
-  const [error, setError] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = () =>
+{
+  const [ error, setError ] = useState( "" );
+  const [ email, setEmail ] = useState( "" );
+  const [ password, setPassword ] = useState( "" );
   const navigate = useNavigate();
-  useEffect(()=>{
-      const isLogin = localStorage.getItem('admin');
-      if(isLogin){
-        navigate('/dashboard')
+  useEffect( () =>
+  {
+    const localData = localStorage.getItem( 'user' );
+    const user = JSON.parse( localData );
+    if ( localData )
+    {
+      user.role === 'ADMIN' ? navigate( '/adminDashboard' ) : navigate( '/userDashboard' );
+    }
+  }, [] )
+
+  const loginHandler = async ( e ) =>
+  {
+    e.preventDefault();
+    try
+    {
+      const url = "http://localhost:5000/user/login"
+      // const url = 'https://admin-dashboard-backend-production.up.railway.app/adminLogin';
+      const config = {
+        method: "POST",
+        data: JSON.stringify( { email, password } ),
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-  },[])
-  const AdminLogin = async (e) => {
-      e.preventDefault();
-      // console.log(email,password)
-      try{
-        const url = 'https://admin-dashboard-backend-production.up.railway.app/adminLogin';
-        const config = {
-          method :"POST",
-          data : JSON.stringify({email, password}),
-          headers : {
-          "Content-Type" : "application/json"
+      const { data } = await axios( url, config );
+      // console.log(response, "RESPO")
+      // const data = response.data;
+      console.warn( data, "Data" )
+
+      if ( data.status === true )
+      {
+        localStorage.setItem( "user", JSON.stringify( data.data ) )
+        console.log( data.data.role, "ROLE" )
+        e.target.reset()
+        if ( data.data.role === 'ADMIN' )
+        {
+          toast.success( data.message, {
+            position: toast.POSITION.TOP_CENTER,
+          } );
+          navigate( "/adminDashboard" );
+        }
+        else
+        {
+          if ( data.data.role === 'USER' )
+          {
+            toast.success( data.message, {
+              position: toast.POSITION.TOP_CENTER,
+            } );
+            navigate( "/userDashboard" );
           }
         }
-        const response = await axios(url, config);
-        // console.log(response, "RESPO")
-        const data = response.data;
-        console.warn(data, "Data")
-      
-        if(response.status === 200){
-          toast.success(response.data.message, {
-            position: toast.POSITION.TOP_CENTER,
-          });
-          localStorage.setItem("admin" , JSON.stringify(response.data.data))
-          e.target.reset()
-          setTimeout(() => {
-            navigate("/dashboard");
-          }, 2000);
-        }
       }
-      catch(err){
-        toast.error(err.response.data.message, {
-          position: toast.POSITION.TOP_CENTER,
-        })
-        setError(err.response.data.message);
-        // console.log(err.response.data.message);
-      }
-     
-      // navigate('/')
+    }
+    catch ( err )
+    {
+      toast.error( err.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      } )
+      setError( err.response.data.message );
+    }
+
 
   }
 
   return (
     <div className="login_container">
       <div className="login_header">
-        <form className="login_form" onSubmit={AdminLogin}>
+        <form className="login_form" onSubmit={ loginHandler }>
           <h2 className="login_form_heading">Login</h2>
           <div className="login_formGroup">
-            <TextField
-              label="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              variant="standard"
+            <input
+              placeholder="Enter Email..."
+              type="text"
+              value={ email }
+              onChange={ ( e ) => setEmail( e.target.value ) }
               className="login_form_input"
             />
           </div>
           <div className="login_formGroup">
-            <TextField
-              label="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+            <input
+              placeholder="Enter Password..."
               type="password"
-              variant="standard"
+              value={ password }
+              onChange={ ( e ) => setPassword( e.target.value ) }
               className="login_form_input"
             />
           </div>
@@ -88,7 +105,7 @@ const Login = () => {
               LOGIN
             </Button>
           </div>
-          {error && <span className="signup_error_message">{error}</span>}
+          { error && <span className="signup_error_message">{ error }</span> }
         </form>
         <ToastContainer />
       </div>

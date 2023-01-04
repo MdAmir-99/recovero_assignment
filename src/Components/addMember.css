@@ -6,6 +6,7 @@
     align-items: center;
     background-color: var(--bg_color);
     z-index: 1;
+    position: relative;
 }
 
 .signup_header {
@@ -73,4 +74,15 @@
 .signup_error_message {
     font-size: .9rem;
     color: red;
+}
+
+.back_btn {
+    background-color: var(--main_color);
+    color: var(--bg_color);
+    position: absolute;
+    padding: .5rem 1rem;
+    top: 1rem;
+    left: 1rem;
+    font-weight: bold;
+    cursor: pointer;
 }
