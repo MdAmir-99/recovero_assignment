@@ -1,9 +1,7 @@
-const mongoose = require( 'mongoose' );
+const { Schema, model } = require( 'mongoose' );
+const ObjectId = Schema.Types.ObjectId;
 
-
-
-const adminSchema = new mongoose.Schema( {
-
+const userSchema = new Schema( {
     fullName: {
         type: String,
         required: true,
@@ -28,6 +26,11 @@ const adminSchema = new mongoose.Schema( {
         unique: true,
         maxLength: 10
     },
+    // adminId: {
+    //     type: ObjectId,
+    //     ref: 'admin',
+    //     required: true
+    // },
     isDeleted: {
         type: Boolean,
         default: false
@@ -39,6 +42,4 @@ const adminSchema = new mongoose.Schema( {
     }
 }, { timestamps: true } )
 
-
-
-module.exports = mongoose.model( 'admin', adminSchema )
+module.exports = model( 'user', userSchema )
